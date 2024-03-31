@@ -7,20 +7,20 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
-use App\Http\Requests\RegisterAuthRequest;
-use App\Http\Requests\LoginAuthRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-	public function register(RegisterAuthRequest $request): JsonResponse
+	public function register(RegisterRequest $request): JsonResponse
 	{
 		$user = User::create($request->validated());
 		event(new Registered($user));
 		return response()->json(['message' => 'User registered successfully'], 201);
 	}
 
-	public function login(LoginAuthRequest $request): JsonResponse
+	public function login(LoginRequest $request): JsonResponse
 	{
 		$data = $request->validated();
 		// TODO: check if email is verified before logging in
