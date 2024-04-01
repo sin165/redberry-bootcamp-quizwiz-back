@@ -1,6 +1,10 @@
 <?php
 
 return [
+	'verification' => [
+		'expire' => 120,
+	],
+
 	/*
 	|--------------------------------------------------------------------------
 	| Authentication Defaults
