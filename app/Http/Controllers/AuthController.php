@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResendEmailRequest;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -23,7 +24,11 @@ class AuthController extends Controller
 	public function login(LoginRequest $request): JsonResponse
 	{
 		$data = $request->validated();
-		// TODO: check if email is verified before logging in
+
+		$user = User::where('email', $data['email'])->first();
+		if ($user && !$user->hasVerifiedEmail()) {
+			return response()->json(['message' => 'Email not verified', 'email' => $data['email']], 403);
+		}
 
 		if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']], $data['remember'])) {
 			$request->session()->regenerate();
@@ -31,9 +36,9 @@ class AuthController extends Controller
 			return response()->json([
 				'message' => 'Login successful',
 				'user'    => [
-					'id'      => $user->id,
-					'usename' => $user->username,
-					'email'   => $user->email,
+					'id'       => $user->id,
+					'username' => $user->username,
+					'email'    => $user->email,
 				],
 			], 200);
 		}
@@ -49,5 +54,16 @@ class AuthController extends Controller
 		$user->markEmailAsVerified();
 		event(new Verified($user));
 		return response()->json(['message' => 'Email verified successfully']);
+	}
+
+	public function resendEmail(ResendEmailRequest $request): JsonResponse
+	{
+		if ($request->has('id')) {
+			$user = User::findOrFail($request->validated()['id']);
+		} else {
+			$user = User::where('email', $request->validated()['email'])->first();
+		}
+		$user->sendEmailVerificationNotification();
+		return response()->json(['message' => 'Verification link sent!']);
 	}
 }
