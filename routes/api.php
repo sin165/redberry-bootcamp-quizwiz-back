@@ -13,4 +13,5 @@ Route::controller(AuthController::class)->group(function () {
 	Route::post('/login', 'login')->name('login');
 	Route::get('/email/verify/{id}/{hash}', 'verifyEmail')->middleware('signed')->name('verification.verify');
 	Route::post('/email/verification-notification', 'resendEmail')->middleware('throttle:6,1')->name('verification.send');
+	Route::post('/logout', 'logout')->middleware('auth:sanctum')->name('logout');
 });
