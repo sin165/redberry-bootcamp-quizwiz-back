@@ -20,7 +20,7 @@ class QuizFactory extends Factory
 		return [
 			'title'         => fake()->sentence(),
 			'instructions'  => fake()->paragraph(),
-			'difficulty_id' => Difficulty::latest('id')->first()->id,
+			'difficulty_id' => fake()->numberBetween(1, Difficulty::all()->count()),
 			'time_limit'    => fake()->numberBetween(1, 10) * 60,
 		];
 	}
