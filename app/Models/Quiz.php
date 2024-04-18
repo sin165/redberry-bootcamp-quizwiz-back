@@ -36,6 +36,6 @@ class Quiz extends Model
 
 	public function users(): BelongsToMany
 	{
-		return $this->belongsToMany(User::class, 'results');
+		return $this->belongsToMany(User::class, 'results')->withPivot('points', 'time');
 	}
 }
