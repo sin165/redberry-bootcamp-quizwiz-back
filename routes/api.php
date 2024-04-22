@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuizController;
 use App\Models\Category;
+use App\Models\Difficulty;
 
 Route::get('/user', function (Request $request) {
 	return $request->user();
@@ -22,6 +23,10 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::get('/categories', function () {
 	return Category::all();
+});
+
+Route::get('/difficulties', function () {
+	return Difficulty::all();
 });
 
 Route::controller(QuizController::class)->group(function () {
