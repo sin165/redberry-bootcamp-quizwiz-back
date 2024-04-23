@@ -111,4 +111,9 @@ class AuthController extends Controller
 			return response()->json(['message' => __($status)], 400);
 		}
 	}
+
+	public function getCurrentUser(Request $request): JsonResponse
+	{
+		return response()->json($request->user());
+	}
 }

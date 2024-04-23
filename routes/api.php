@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
-Route::get('/user', function (Request $request) {
-	return $request->user();
-})->middleware('auth:sanctum');
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DifficultyController;
+use App\Http\Controllers\QuizController;
 
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register')->name('register');
@@ -16,4 +14,13 @@ Route::controller(AuthController::class)->group(function () {
 	Route::post('/logout', 'logout')->middleware('auth:sanctum')->name('logout');
 	Route::post('/forgot-password', 'sendResetLink')->name('password.email');
 	Route::post('/reset-password', 'resetPassword')->name('password.update');
+	Route::get('/user', 'getCurrentUser')->middleware('auth:sanctum')->name('me');
+});
+
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/difficulties', [DifficultyController::class, 'index'])->name('difficulties.index');
+
+Route::controller(QuizController::class)->group(function () {
+	Route::get('/quizzes', 'index')->name('quizzes.index');
+	Route::get('/quizzes/{quiz}', 'show')->name('quizzes.show');
 });
