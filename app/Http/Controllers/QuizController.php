@@ -13,6 +13,10 @@ class QuizController extends Controller
 	{
 		$perPage = $request->query('per_page', 9);
 		$quizzes = Quiz::with('difficulty', 'categories', 'questions', 'results')
+			->filterDifficulties($request->query('difficulties'))
+			->filterCategories($request->query('categories'))
+			->filterCompletion($request->query('status'))
+			->sort($request->query('sort'))
 			->simplePaginate($perPage)
 			->withQueryString();
 		return QuizResource::collection($quizzes);
