@@ -3,29 +3,26 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Color;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Difficulty extends Resource
 {
 	/**
 	 * The model the resource corresponds to.
 	 *
-	 * @var class-string<\App\Models\User>
+	 * @var class-string<\App\Models\Difficulty>
 	 */
-	public static $model = \App\Models\User::class;
+	public static $model = \App\Models\Difficulty::class;
 
 	/**
 	 * The single value that should be used to represent the resource when being displayed.
 	 *
 	 * @var string
 	 */
-	public static $title = 'username';
+	public static $title = 'name';
 
 	/**
 	 * The columns that should be searched.
@@ -33,7 +30,7 @@ class User extends Resource
 	 * @var array
 	 */
 	public static $search = [
-		'id', 'username', 'email',
+		'id', 'name',
 	];
 
 	/**
@@ -48,24 +45,14 @@ class User extends Resource
 		return [
 			ID::make()->sortable(),
 
-			Gravatar::make()->maxWidth(50),
+			Text::make('Name')
+				->rules('required', 'unique:difficulties,name,{{resourceId}}'),
 
-			Text::make('Username', 'username')
-				->sortable()
-				->rules('required', 'max:255'),
+			Color::make('Text color')
+				->rules('required'),
 
-			Text::make('Email')
-				->sortable()
-				->rules('required', 'email', 'max:254')
-				->creationRules('unique:users,email')
-				->updateRules('unique:users,email,{{resourceId}}'),
-
-			Password::make('Password')
-				->onlyOnForms()
-				->creationRules('required', Rules\Password::defaults())
-				->updateRules('nullable', Rules\Password::defaults()),
-
-			HasMany::make('Completed quizzes', 'results', 'App\Nova\Result'),
+			Color::make('Background color', 'bg_color')
+				->rules('required'),
 		];
 	}
 
