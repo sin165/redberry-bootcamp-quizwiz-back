@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\HasMany;
@@ -13,37 +12,15 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
-	/**
-	 * The model the resource corresponds to.
-	 *
-	 * @var class-string<\App\Models\User>
-	 */
 	public static $model = \App\Models\User::class;
 
-	/**
-	 * The single value that should be used to represent the resource when being displayed.
-	 *
-	 * @var string
-	 */
 	public static $title = 'username';
 
-	/**
-	 * The columns that should be searched.
-	 *
-	 * @var array
-	 */
 	public static $search = [
 		'id', 'username', 'email',
 	];
 
-	/**
-	 * Get the fields displayed by the resource.
-	 *
-	 * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-	 *
-	 * @return array
-	 */
-	public function fields(NovaRequest $request)
+	public function fields(NovaRequest $request): array
 	{
 		return [
 			ID::make()->sortable(),
@@ -69,50 +46,22 @@ class User extends Resource
 		];
 	}
 
-	/**
-	 * Get the cards available for the request.
-	 *
-	 * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-	 *
-	 * @return array
-	 */
-	public function cards(NovaRequest $request)
+	public function cards(NovaRequest $request): array
 	{
 		return [];
 	}
 
-	/**
-	 * Get the filters available for the resource.
-	 *
-	 * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-	 *
-	 * @return array
-	 */
-	public function filters(NovaRequest $request)
+	public function filters(NovaRequest $request): array
 	{
 		return [];
 	}
 
-	/**
-	 * Get the lenses available for the resource.
-	 *
-	 * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-	 *
-	 * @return array
-	 */
-	public function lenses(NovaRequest $request)
+	public function lenses(NovaRequest $request): array
 	{
 		return [];
 	}
 
-	/**
-	 * Get the actions available for the resource.
-	 *
-	 * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-	 *
-	 * @return array
-	 */
-	public function actions(NovaRequest $request)
+	public function actions(NovaRequest $request): array
 	{
 		return [];
 	}
