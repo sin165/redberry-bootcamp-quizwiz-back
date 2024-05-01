@@ -19,6 +19,7 @@ class QuizFactory extends Factory
 	{
 		return [
 			'title'         => fake()->sentence(),
+			'description'   => fake()->paragraph(),
 			'instructions'  => fake()->paragraph(),
 			'difficulty_id' => fake()->numberBetween(1, Difficulty::all()->count()),
 			'time_limit'    => fake()->numberBetween(1, 10) * 60,

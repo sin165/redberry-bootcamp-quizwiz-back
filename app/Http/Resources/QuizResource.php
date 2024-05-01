@@ -19,6 +19,8 @@ class QuizResource extends JsonResource
 			'id'                => $this->id,
 			'title'             => $this->title,
 			'instructions'      => $this->instructions,
+			'description'       => $this->description,
+			'picture'           => $this->when($this->picture, asset('storage/' . $this->picture)),
 			'time_limit'        => $this->time_limit,
 			'auth_user_result'  => $this->when(auth()->user(), new ResultResource($this->results->firstWhere('user_id', auth()->id()))),
 			'max_points'        => $this->questions->sum('points'),
