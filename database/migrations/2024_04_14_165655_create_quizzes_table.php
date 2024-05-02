@@ -13,7 +13,9 @@ return new class extends Migration {
 		Schema::create('quizzes', function (Blueprint $table) {
 			$table->id();
 			$table->string('title')->unique();
+			$table->text('description');
 			$table->text('instructions');
+			$table->string('picture')->nullable();
 			$table->foreignId('difficulty_id')->constrained()->restrictOnDelete();
 			$table->unsignedSmallInteger('time_limit');
 			$table->timestamps();

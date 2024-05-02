@@ -15,6 +15,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ResendEmailRequest;
 use App\Http\Requests\SendResetLinkRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -40,11 +41,7 @@ class AuthController extends Controller
 			$user = Auth::user();
 			return response()->json([
 				'message' => 'Login successful',
-				'user'    => [
-					'id'       => $user->id,
-					'username' => $user->username,
-					'email'    => $user->email,
-				],
+				'user'    => new UserResource($user),
 			], 200);
 		}
 		return response()->json(['message' => 'Login failed'], 401);
@@ -112,8 +109,8 @@ class AuthController extends Controller
 		}
 	}
 
-	public function getCurrentUser(Request $request): JsonResponse
+	public function getCurrentUser(Request $request): UserResource
 	{
-		return response()->json($request->user());
+		return new UserResource($request->user());
 	}
 }
