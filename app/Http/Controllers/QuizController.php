@@ -67,6 +67,7 @@ class QuizController extends Controller
 		return response()->json([
 			'quiz_name'         => $quiz->title,
 			'quiz_level'        => $quiz->difficulty->name,
+			'quiz_level_color'  => $quiz->difficulty->text_color,
 			'correct_answers'   => $correctAnswerCount,
 			'incorrect_answers' => $quiz->questions->count() - $correctAnswerCount,
 			'time'              => $time,
