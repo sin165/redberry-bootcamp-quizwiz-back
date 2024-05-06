@@ -75,6 +75,14 @@ class Quiz extends Model
 		return $query;
 	}
 
+	public function scopeExclude(Builder $query, ?int $id): Builder
+	{
+		if ($id) {
+			$query->where('id', '!=', $id);
+		}
+		return $query;
+	}
+
 	public function scopeSort(Builder $query, ?string $sort): Builder
 	{
 		if ($sort === 'a-z') {
