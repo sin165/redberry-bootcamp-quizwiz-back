@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\CountCorrectAnswers;
+use App\Actions\CountCorrectAnswersAction;
 use App\Http\Requests\TakeQuizRequest;
 use App\Http\Resources\QuizResource;
 use App\Models\Quiz;
@@ -33,7 +33,7 @@ class QuizController extends Controller
 		return new QuizResource($quiz);
 	}
 
-	public function take(TakeQuizRequest $request, Quiz $quiz, CountCorrectAnswers $countCorrectAnswers): JsonResponse
+	public function take(TakeQuizRequest $request, Quiz $quiz, CountCorrectAnswersAction $countCorrectAnswersAction): JsonResponse
 	{
 		if (auth()->id() && $quiz->results->firstWhere('user_id', auth()->id())) {
 			return response()->json(['message' => 'You have already taken this quiz'], 403);
@@ -42,7 +42,7 @@ class QuizController extends Controller
 		['time' => $time, 'answers' => $answers] = $request->validated();
 		$quiz->load('questions.answers');
 
-		['correctAnswers' => $correctAnswerCount, 'points' => $points] = $countCorrectAnswers->handle($quiz, $answers);
+		['correctAnswers' => $correctAnswerCount, 'points' => $points] = $countCorrectAnswersAction->handle($quiz, $answers);
 
 		Result::create([
 			'quiz_id' => $quiz->id,

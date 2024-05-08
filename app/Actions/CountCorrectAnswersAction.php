@@ -4,9 +4,9 @@ namespace App\Actions;
 
 use App\Models\Quiz;
 
-class CountCorrectAnswers
+class CountCorrectAnswersAction
 {
-	public function handle(Quiz $quiz, array $answers)
+	public function handle(Quiz $quiz, array $answers): array
 	{
 		$correctAnswers = 0;
 		$points = 0;
