@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Actions\CountCorrectAnswersAction;
 use App\Http\Requests\TakeQuizRequest;
 use App\Http\Resources\QuizResource;
+use App\Http\Resources\QuizResultResource;
 use App\Models\Quiz;
 use App\Models\Result;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -33,7 +33,7 @@ class QuizController extends Controller
 		return new QuizResource($quiz);
 	}
 
-	public function take(TakeQuizRequest $request, Quiz $quiz, CountCorrectAnswersAction $countCorrectAnswersAction): JsonResponse
+	public function take(TakeQuizRequest $request, Quiz $quiz, CountCorrectAnswersAction $countCorrectAnswersAction): QuizResultResource
 	{
 		if (auth()->id() && $quiz->results->firstWhere('user_id', auth()->id())) {
 			return response()->json(['message' => 'You have already taken this quiz'], 403);
@@ -51,13 +51,10 @@ class QuizController extends Controller
 			'time'    => $time,
 		]);
 
-		return response()->json([
-			'quiz_name'         => $quiz->title,
-			'quiz_level'        => $quiz->difficulty->name,
-			'quiz_level_color'  => $quiz->difficulty->text_color,
-			'correct_answers'   => $correctAnswerCount,
-			'incorrect_answers' => $quiz->questions->count() - $correctAnswerCount,
-			'time'              => $time,
+		return new QuizResultResource((object)[
+			'quiz'               => $quiz,
+			'correctAnswerCount' => $correctAnswerCount,
+			'time'               => $time,
 		]);
 	}
 }
