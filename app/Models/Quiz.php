@@ -83,6 +83,14 @@ class Quiz extends Model
 		return $query;
 	}
 
+	public function scopeSearch(Builder $query, ?string $term): Builder
+	{
+		if ($term) {
+			$query->where('title', 'like', '%' . $term . '%');
+		}
+		return $query;
+	}
+
 	public function scopeSort(Builder $query, ?string $sort): Builder
 	{
 		if ($sort === 'a-z') {
