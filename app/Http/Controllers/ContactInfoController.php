@@ -7,7 +7,7 @@ use App\Models\ContactInfo;
 
 class ContactInfoController extends Controller
 {
-	public function getInfo()
+	public function getInfo(): ContactInfoResource
 	{
 		return new ContactInfoResource(ContactInfo::latest('id')->first());
 	}
