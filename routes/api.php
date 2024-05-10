@@ -23,4 +23,5 @@ Route::get('/difficulties', [DifficultyController::class, 'index'])->name('diffi
 Route::controller(QuizController::class)->group(function () {
 	Route::get('/quizzes', 'index')->name('quizzes.index');
 	Route::get('/quizzes/{quiz}', 'show')->name('quizzes.show');
+	Route::post('/quizzes/{quiz}/result', 'take')->name('quizzes.take');
 });
