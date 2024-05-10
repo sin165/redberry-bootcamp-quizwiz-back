@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DifficultyController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\StatisticsController;
 
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/register', 'register')->name('register');
@@ -25,3 +26,5 @@ Route::controller(QuizController::class)->group(function () {
 	Route::get('/quizzes/{quiz}', 'show')->name('quizzes.show');
 	Route::post('/quizzes/{quiz}/result', 'take')->name('quizzes.take');
 });
+
+Route::get('/statistics', [StatisticsController::class, 'getCounts'])->name('statistics');
