@@ -12,10 +12,10 @@ class ContactInfoResource extends JsonResource
 	public function toArray(Request $request): array
 	{
 		return [
-			'email'    => $this->email,
-			'tel'      => $this->tel,
-			'facebook' => $this->facebook,
-			'linkedin' => $this->linkedin,
+			'email'          => $this->email,
+			'telephone'      => $this->telephone,
+			'facebook'       => $this->facebook,
+			'linkedin'       => $this->linkedin,
 		];
 	}
 }

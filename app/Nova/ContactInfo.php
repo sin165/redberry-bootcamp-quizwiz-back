@@ -21,7 +21,7 @@ class ContactInfo extends Resource
 		return [
 			ID::make()->sortable(),
 			Text::make('email')->rules('required', 'email', 'max:254'),
-			Text::make('tel')->rules('required'),
+			Text::make('telephone')->rules('required'),
 			Text::make('facebook')->rules('required'),
 			Text::make('linkedin')->rules('required'),
 		];
