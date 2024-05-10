@@ -21,6 +21,7 @@ class QuizController extends Controller
 			->filterCategories($request->query('categories'))
 			->filterCompletion($request->query('status'))
 			->exclude($request->query('exclude'))
+			->search($request->query('term'))
 			->sort($request->query('sort'))
 			->simplePaginate($perPage)
 			->withQueryString();
