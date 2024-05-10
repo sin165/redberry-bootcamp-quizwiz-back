@@ -9,6 +9,6 @@ class ContactInfoController extends Controller
 {
 	public function getInfo(): ContactInfoResource
 	{
-		return new ContactInfoResource(ContactInfo::latest('id')->first());
+		return ContactInfoResource::make(ContactInfo::latest('id')->first());
 	}
 }
