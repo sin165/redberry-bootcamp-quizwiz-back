@@ -20,7 +20,7 @@ class FilteringAndSortingTest extends TestCase
 
 	public function test_first_9_quizzes_returned_when_no_query_parameters_provided(): void
 	{
-		$response = $this->getJson('/api/quizzes');
+		$response = $this->getJson(route('quizzes.index'));
 		$response
 			->assertStatus(200)
 			->assertJsonCount(9, 'data')
@@ -30,7 +30,7 @@ class FilteringAndSortingTest extends TestCase
 
 	public function test_only_quizzes_of_selected_difficulties_returned_when_difficulties_parameter_provided(): void
 	{
-		$response = $this->get('/api/quizzes?difficulties=3,5');
+		$response = $this->get(route('quizzes.index', ['difficulties' => '3,5']));
 		$response->assertStatus(200);
 		$data = $response->json('data');
 		foreach ($data as $quiz) {
@@ -40,7 +40,7 @@ class FilteringAndSortingTest extends TestCase
 
 	public function test_only_quizzes_of_selected_categories_returned_when_categories_parameter_provided(): void
 	{
-		$response = $this->get('/api/quizzes?categories=2,7');
+		$response = $this->get(route('quizzes.index', ['categories' => '2,7']));
 		$response->assertStatus(200);
 		$data = $response->json('data');
 		foreach ($data as $quiz) {
@@ -55,7 +55,7 @@ class FilteringAndSortingTest extends TestCase
 		Result::create(['quiz_id' => 8, 'user_id' => 1, 'time' => 1, 'points' => 1]);
 		$user = User::first();
 
-		$response = $this->actingAs($user)->get('/api/quizzes?status=completed');
+		$response = $this->actingAs($user)->get(route('quizzes.index', ['status' => 'completed']));
 		$response->assertStatus(200);
 
 		$data = $response->json('data');
@@ -67,7 +67,7 @@ class FilteringAndSortingTest extends TestCase
 
 	public function test_quizzes_returned_contain_the_search_term_when_term_parameter_provided(): void
 	{
-		$response = $this->get('/api/quizzes?term=qui');
+		$response = $this->get(route('quizzes.index', ['term' => 'qui']));
 		$response->assertStatus(200);
 		$data = $response->json('data');
 		foreach ($data as $quiz) {
@@ -84,7 +84,7 @@ class FilteringAndSortingTest extends TestCase
 		$quiz2->created_at = strtotime('+2 hours');
 		$quiz2->save();
 
-		$response = $this->get('/api/quizzes?sort=newest');
+		$response = $this->get(route('quizzes.index', ['sort' => 'newest']));
 		$response
 			->assertStatus(200)
 			->assertJsonPath('data.0.id', 10)
@@ -98,7 +98,7 @@ class FilteringAndSortingTest extends TestCase
 		Result::create(['quiz_id' => 7, 'user_id' => 2, 'time' => 1, 'points' => 1]);
 		Result::create(['quiz_id' => 4, 'user_id' => 1, 'time' => 1, 'points' => 1]);
 
-		$response = $this->get('/api/quizzes?sort=popular');
+		$response = $this->get(route('quizzes.index', ['sort' => 'popular']));
 		$response
 			->assertStatus(200)
 			->assertJsonPath('data.0.id', 7)
@@ -107,7 +107,11 @@ class FilteringAndSortingTest extends TestCase
 
 	public function test_quizzes_returned_are_filtered_and_sorted_correctly_when_multiple_filter_and_sort_parameters_provided(): void
 	{
-		$response = $this->get('/api/quizzes?difficulties=2,3,4,5&categories=2,4,6,7,10,13&sort=a-z');
+		$response = $this->get(route('quizzes.index', [
+			'difficulties' => '2,3,4,5',
+			'categories'   => '2,4,6,7,10,13',
+			'sort'         => 'a-z',
+		]));
 
 		$data = $response->json('data');
 		foreach ($data as $quiz) {

@@ -17,7 +17,7 @@ class RegistrationTest extends TestCase
 
 	public function test_user_added_in_the_database_when_all_inputs_provided_correctly(): void
 	{
-		$this->postJson('/api/register', [
+		$this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someemail@example.com',
 			'password'     => 'somepassword',
@@ -34,7 +34,7 @@ class RegistrationTest extends TestCase
 	{
 		Notification::fake();
 
-		$this->postJson('/api/register', [
+		$this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someemail@example.com',
 			'password'     => 'somepassword',
@@ -49,7 +49,7 @@ class RegistrationTest extends TestCase
 
 	public function test_register_route_returns_created_when_all_inputs_provided_correctly(): void
 	{
-		$response = $this->postJson('/api/register', [
+		$response = $this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someemail@example.com',
 			'password'     => 'somepassword',
@@ -68,7 +68,7 @@ class RegistrationTest extends TestCase
 			'email'   => 'someemail@example.com',
 		]);
 
-		$response = $this->postJson('/api/register', [
+		$response = $this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someemail2@example.com',
 			'password'     => 'somepassword',
@@ -90,7 +90,7 @@ class RegistrationTest extends TestCase
 			'email'   => 'someemail@example.com',
 		]);
 
-		$response = $this->postJson('/api/register', [
+		$response = $this->postJson(route('register'), [
 			'username'     => 'somename2',
 			'email'        => 'someemail@example.com',
 			'password'     => 'somepassword',
@@ -107,7 +107,7 @@ class RegistrationTest extends TestCase
 
 	public function test_register_route_returns_unprocessable_content_error_when_invalid_email_is_provided(): void
 	{
-		$response = $this->postJson('/api/register', [
+		$response = $this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someinvalidemail',
 			'password'     => 'somepassword',
@@ -124,7 +124,7 @@ class RegistrationTest extends TestCase
 
 	public function test_register_route_returns_unprocessable_content_error_when_passwords_dont_match(): void
 	{
-		$response = $this->postJson('/api/register', [
+		$response = $this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someemail@example.com',
 			'password'     => 'somepassword',
@@ -141,7 +141,7 @@ class RegistrationTest extends TestCase
 
 	public function test_register_route_returns_unprocessable_content_error_when_terms_not_accepted(): void
 	{
-		$response = $this->postJson('/api/register', [
+		$response = $this->postJson(route('register'), [
 			'username'     => 'somename',
 			'email'        => 'someemail@example.com',
 			'password'     => 'somepassword',
@@ -158,7 +158,7 @@ class RegistrationTest extends TestCase
 
 	public function test_register_route_returns_unprocessable_content_error_when_inputs_not_provided(): void
 	{
-		$response = $this->postJson('/api/register');
+		$response = $this->postJson(route('register'));
 
 		$response->assertStatus(422);
 		$response->assertJson(
@@ -174,7 +174,7 @@ class RegistrationTest extends TestCase
 
 		$response = $this
 			->actingAs($user)
-			->postJson('/api/register', [
+			->postJson(route('register'), [
 				'username'     => 'somename',
 				'email'        => 'someemail@example.com',
 				'password'     => 'somepassword',

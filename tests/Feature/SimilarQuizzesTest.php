@@ -22,7 +22,12 @@ class SimilarQuizzesTest extends TestCase
 	{
 		$quiz = Quiz::with('categories')->find(7);
 		$categoryIds = $quiz->categories->pluck('id')->toArray();
-		$response = $this->getJson('/api/quizzes?per_page=3&status=not_completed&exclude=7&categories=' . implode(',', $categoryIds));
+		$response = $this->getJson(route('quizzes.index', [
+			'per_page'   => 3,
+			'status'     => 'not_completed',
+			'exclude'    => 7,
+			'categories' => implode(',', $categoryIds),
+		]));
 		$response->assertStatus(200);
 		$quizzes = $response->json('data');
 		foreach ($quizzes as $returnedQuiz) {
@@ -35,7 +40,12 @@ class SimilarQuizzesTest extends TestCase
 	{
 		$quiz = Quiz::with('categories')->find(1);
 		$categoryIds = $quiz->categories->pluck('id')->toArray();
-		$response = $this->getJson('/api/quizzes?per_page=3&status=not_completed&exclude=1&categories=' . implode(',', $categoryIds));
+		$response = $this->getJson(route('quizzes.index', [
+			'per_page'   => 3,
+			'status'     => 'not_completed',
+			'exclude'    => 1,
+			'categories' => implode(',', $categoryIds),
+		]));
 		$response->assertStatus(200);
 		$quizzes = $response->json('data');
 		foreach ($quizzes as $returnedQuiz) {
@@ -57,7 +67,12 @@ class SimilarQuizzesTest extends TestCase
 		$user = User::find(1);
 		$response = $this
 			->actingAs($user)
-			->getJson('/api/quizzes?per_page=3&exclude=1&status=not_completed&categories=' . implode(',', $categoryIds));
+			->getJson(route('quizzes.index', [
+				'per_page'   => 3,
+				'status'     => 'not_completed',
+				'exclude'    => 1,
+				'categories' => implode(',', $categoryIds),
+			]));
 		$response->assertStatus(200);
 
 		$quizzes = $response->json('data');
