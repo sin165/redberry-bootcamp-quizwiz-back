@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Password;
@@ -41,8 +40,6 @@ class User extends Resource
 				->onlyOnForms()
 				->creationRules('required', Rules\Password::defaults())
 				->updateRules('nullable', Rules\Password::defaults()),
-
-			HasMany::make('Completed quizzes', 'results', 'App\Nova\Result'),
 		];
 	}
 
