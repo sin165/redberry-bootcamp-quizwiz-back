@@ -42,13 +42,16 @@
     .button {
       display: block;
       width: max-content;
+      max-width: max-content;
       margin: 26px auto;
       padding: 10px 52px;
       background-color: #4B69FD;
-      color: #ffffff;
       text-decoration: none;
       border-radius: 10px;
       font-weight: 600;
+    }
+    .button span {
+      color: #FFFFFF;
     }
     .button:hover {
       box-shadow: 0px 8px 10px 0px #00000033, 0px 6px 30px 0px #0000001F, 0px 16px 24px 0px #00000024;
@@ -64,7 +67,7 @@
     <div class="content">
       <p>Hi {{ $username }},</p>
       <p>You're almost there! Click the button below to reset your password.</p>
-      <a href="{{ $url }}" class="button">Reset password</a>
+      <a href="{{ $url }}" class="button"><span>Reset password</span></a>
     </div>
   </div>
 </body>
