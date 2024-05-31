@@ -43,6 +43,10 @@ return [
 			'driver'   => 'session',
 			'provider' => 'users',
 		],
+		'nova' => [
+			'driver'   => 'session',
+			'provider' => 'users',
+		],
 	],
 
 	/*
